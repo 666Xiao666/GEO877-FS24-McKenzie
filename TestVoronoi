@@ -1,0 +1,53 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.spatial import Voronoi, voronoi_plot_2d
+import matplotlib.path as mplPath
+
+# Load the CSV file
+file_path = r'C:\Users\durre\OneDrive\Dokumente\ESS\8.Semester\GEO877\Manhattan\cleaned202007-cogo-tripdata.csv'
+data = pd.read_csv(file_path)
+
+# Extract unique start points
+unique_points = data[['start_lat', 'start_lng']].drop_duplicates()
+
+# Convert the points to a numpy array
+points = unique_points.to_numpy()
+
+# Create Voronoi diagram
+vor = Voronoi(points)
+
+# Function to create Voronoi polygons
+def voronoi_polygons(vor):
+    polygons = []
+    for region in vor.regions:
+        if not region or -1 in region:
+            continue
+        polygon = [vor.vertices[i] for i in region]
+        polygons.append(polygon)
+    return polygons
+
+# Get Voronoi polygons
+polygons = voronoi_polygons(vor)
+
+# Plot Voronoi diagram with polygons
+fig, ax = plt.subplots(figsize=(10, 10))
+voronoi_plot_2d(vor, ax=ax, show_vertices=False, line_colors='orange', line_width=2, point_size=15)
+
+# Plot points
+ax.plot(points[:, 0], points[:, 1], 'bo')
+
+# Plot Voronoi polygons
+for polygon in polygons:
+    poly_path = mplPath.Path(np.array(polygon))
+    patch = plt.Polygon(poly_path.vertices, edgecolor='black', facecolor='none')
+    ax.add_patch(patch)
+
+# Set plot limits
+ax.set_xlim(min(points[:, 0])-0.01, max(points[:, 0])+0.01)
+ax.set_ylim(min(points[:, 1])-0.01, max(points[:, 1])+0.01)
+
+plt.xlabel('Latitude')
+plt.ylabel('Longitude')
+plt.title('Voronoi Diagram with Polygons for Bike Start Locations')
+plt.show()
