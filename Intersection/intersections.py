@@ -6,29 +6,31 @@ from read_in_boundary import columbus_bd
 from hexgrid_boundary import columbus_hexagons
 
 # Create an instance of DistanceCalculation
-dc = DC("CoGo_Bikerental_Colorado_US/cleaned_data/cleaned202007-cogo-tripdata.csv")
+dc = DC("/Users/benedikt/Documents/GitHub/GEO877-FS24-McKenzie/CoGo_Bikerental_Colorado_US/cleaned_data/cleaned202007-cogo-tripdata.csv")
 
 # Process the data and save the results to a CSV file. This functions are imported from NewCabMetric.py. They calculate the manhattan distances and safe them to a csv-file.
 dc.process_data()
-dc.save_results_to_csv("mandist.csv")
+dc.save_results_to_csv("/Users/benedikt/Documents/GitHub/GEO877-FS24-McKenzie/Intersection/mandist.csv")
 
 # Read the generated CSV file
-csv_file = "mandist.csv"
+csv_file = "/Users/benedikt/Documents/GitHub/GEO877-FS24-McKenzie/Intersection/mandist.csv"
 
-# Create a figure and axis
-plt.figure(figsize=(10, 10))
+# Create a figure
+#plt.figure(figsize=(10, 10))
 
-# Plot the corporate boundary polygon
-xs, ys = zip(*columbus_bd)
-plt.plot(xs, ys, 'b-')
-plt.fill(xs, ys, 'skyblue', alpha=0.5)
+# Plot the boundary polygon
+#xs, ys = zip(*columbus_bd)
+#plt.plot(xs, ys, 'b-')
+#plt.fill(xs, ys, 'skyblue', alpha=0.5)
 
 # Plot the hexagons
 for hexagon in columbus_hexagons:
     hexagon_xs = [coord[0] for coord in hexagon]
     hexagon_ys = [coord[1] for coord in hexagon]
-    plt.plot(hexagon_xs, hexagon_ys, 'k-')
+    #plt.plot(hexagon_xs, hexagon_ys, 'k-')
 
+
+lines = []
 # Read the CSV file and plot each line on the map
 with open(csv_file, 'r') as file:
     csv_reader = csv.DictReader(file)
@@ -44,8 +46,19 @@ with open(csv_file, 'r') as file:
         x_coords = [coord[0] for coord in line_coords]
         y_coords = [coord[1] for coord in line_coords]
 
+        # Create a dictionary representing the line
+        line_dict = {
+            'line_coords': line_coords,
+            'x_coords': x_coords,
+            'y_coords': y_coords
+        }
+        
+        # Append the line dictionary to the list of lines
+        lines.append(line_dict)
+
+
         # Plot the line
-        plt.plot(x_coords, y_coords, color='red', linewidth=1)
+        #plt.plot(x_coords, y_coords, color='red', linewidth=1)
 
 # Function to check if two line segments intersect
 def segment_intersect(p1, q1, p2, q2):
@@ -81,6 +94,7 @@ def segment_intersect(p1, q1, p2, q2):
 
 # Find segment intersections between lines and hexagons
 intersections = []
+line_segments = []
 
 # Read the CSV file and process each line
 with open(csv_file, 'r') as file:
@@ -101,6 +115,7 @@ with open(csv_file, 'r') as file:
             for i in range(len(line_coords) - 1):
                 p1 = line_coords[i]
                 q1 = line_coords[i + 1]
+                line_segments.append((p1, q1))
 
                 for j in range(len(hexagon_coords) - 1):
                     p2 = hexagon_coords[j]
@@ -110,15 +125,15 @@ with open(csv_file, 'r') as file:
                         intersections.append((p1, q1, p2, q2))
 
 # Print the intersections
-print("Intersections:")
-for intersection in intersections:
-    print(intersection)
+#print("Intersections:")
+#for intersection in intersections:
+#    print(intersection)
 
 # Set the title and axis labels
-plt.title('Columbus Boundary, Hexagons, and Lines in NAD83 / California Albers Projection')
-plt.xlabel('X (meters)')
-plt.ylabel('Y (meters)')
+#plt.title('Columbus Boundary, Hexagons, and Lines in NAD83 / California Albers Projection')
+#plt.xlabel('X (meters)')
+#plt.ylabel('Y (meters)')
 
 # Display the plot
-plt.tight_layout()
-plt.show()
+#plt.tight_layout()
+#plt.show()

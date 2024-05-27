@@ -1,7 +1,7 @@
 import json
 from albers_conversion import convert_to_albers
 # Step 1: Read the GeoJSON file
-geojson_file_path = 'CoGo_Bikerental_Colorado_US/Corporate_Boundary.geojson'
+geojson_file_path = '/Users/benedikt/Documents/GitHub/GEO877-FS24-McKenzie/CoGo_Bikerental_Colorado_US/Corporate_Boundary.geojson'
 
 with open(geojson_file_path, 'r') as f:
     geojson_data = json.load(f)

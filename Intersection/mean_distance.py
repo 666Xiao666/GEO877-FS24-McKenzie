@@ -3,7 +3,7 @@ import math
 from albers_conversion import convert_to_albers
 
 # Step 1: Read the CSV file
-file_path = 'CoGo_Bikerental_Colorado_US/cleaned_data/cleaned202007-cogo-tripdata.csv'
+file_path = '/Users/benedikt/Documents/GitHub/GEO877-FS24-McKenzie/CoGo_Bikerental_Colorado_US/cleaned_data/cleaned202007-cogo-tripdata.csv'
 data = []
 
 with open(file_path, newline='') as csvfile:

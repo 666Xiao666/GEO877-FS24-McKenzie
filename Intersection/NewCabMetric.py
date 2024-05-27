@@ -7,7 +7,7 @@
 import csv
 from albers_conversion import convert_to_albers, convert_from_albers
 # Quick addition: I left the correction for the slight offset northward alignment. Looking more closely at the city's road system, I could see that the offset could vary a bit in certain parts of the city.
-file_path = 'CoGo_Bikerental_Colorado_US/cleaned_data/cleaned202007-cogo-tripdata.csv'
+file_path = '/Users/benedikt/Documents/GitHub/GEO877-FS24-McKenzie/CoGo_Bikerental_Colorado_US/cleaned_data/cleaned202007-cogo-tripdata.csv'
 data = []
 
 with open(file_path, newline='') as csvfile:
@@ -100,19 +100,19 @@ class DistanceCalculation:
 
 
 #this is the file path -> change it if you do it on your device
-file_path = r'CoGo_Bikerental_Colorado_US/cleaned_data/cleaned202007-cogo-tripdata.csv'
+#file_path = r'/Users/benedikt/Documents/GitHub/GEO877-FS24-McKenzie/CoGo_Bikerental_Colorado_US/cleaned_data/cleaned202007-cogo-tripdata.csv'
 
 #creating an instance of the class "DistanceCalculation" (do not forget the change the path, otherwise it will not work :) 
-distance_calculation = DistanceCalculation(file_path)
+#distance_calculation = DistanceCalculation(file_path)
 
 #processing the data input
-distance_calculation.process_data()
+#distance_calculation.process_data()
 
 #this is for getting the results properly displayed
-results = distance_calculation.get_results()
+#results = distance_calculation.get_results()
 #for result in results:
 #    print(result)
 
-#distance_calculation.save_results_to_csv("mandist.csv")
+#distance_calculation.save_results_to_csv("/Users/benedikt/Documents/GitHub/GEO877-FS24-McKenzie/Intersection/mandist.csv")
 
 
