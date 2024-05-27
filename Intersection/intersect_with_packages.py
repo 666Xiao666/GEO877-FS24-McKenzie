@@ -1,10 +1,17 @@
+#this file is not needed. Intersections.py does pretty much the same thing without packages
+
+
+
+
 import pandas as pd
 from shapely.geometry import LineString, Polygon
 from hexgrid_boundary import calculate_polygons, min_x, min_y, max_x, max_y, mean_distance
 import matplotlib.pyplot as plt
 
 # Update this path to the correct location of your CSV file on your system
-csv_file_path = 'mandist.csv'
+csv_file_path = '/Users/benedikt/Documents/GitHub/GEO877-FS24-McKenzie/Intersection/mandist.csv
+
+'
 
 # Load the hexagons data
 hexagons = calculate_polygons(min_x, min_y, max_x, max_y, mean_distance)

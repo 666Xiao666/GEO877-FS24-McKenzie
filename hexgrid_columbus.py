@@ -53,7 +53,7 @@ for station_id, coords in unique_stations.items():
     station_data[station_id] = {'mean_start_lng': mean_lng, 'mean_start_lat': mean_lat}
 
 # Convert mean coordinates to NAD83 / California Albers projection (EPSG:3310)
-from albers_conversion import convert_to_albers
+from Intersection.albers_conversion import convert_to_albers
 
 # Convert the mean coordinates to the new projection
 for station_id, coords in station_data.items():

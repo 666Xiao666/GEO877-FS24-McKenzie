@@ -30,17 +30,28 @@ for hexagon in columbus_hexagons:
     #plt.plot(hexagon_xs, hexagon_ys, 'k-')
 
 
+
 lines = []
 # Read the CSV file and plot each line on the map
 with open(csv_file, 'r') as file:
     csv_reader = csv.DictReader(file)
     for line in csv_reader:
         # Extract the line coordinates from the 'line' column
-        line_coords_str = re.findall(r'\(.*?\)', line['line'])
+        line_coords_str = line['line'].strip('()').split(') -> (')
+        
         line_coords = []
         for coord in line_coords_str:
-            x, y = coord.strip('()').split(', ')
-            line_coords.append([float(x), float(y)])
+            coord = coord.strip('() ').replace(') -> (', ' ')
+            parts = coord.split(', ')
+            if len(parts) != 2:
+                print(f"Unexpected number of parts in coordinate: {coord}")
+                continue
+            x, y = parts
+            try:
+                line_coords.append([float(x), float(y)])
+            except ValueError as e:
+                print(f"Error converting coordinates to float: {coord} - {e}")
+                continue
 
         # Extract x and y coordinates separately
         x_coords = [coord[0] for coord in line_coords]
@@ -101,10 +112,11 @@ with open(csv_file, 'r') as file:
     csv_reader = csv.DictReader(file)
     for line in csv_reader:
         # Extract the line coordinates from the 'line' column
-        line_coords_str = re.findall(r'\(.*?\)', line['line'])
+        line_coords_str = line['line'].strip('()').split(') -> (')
         line_coords = []
         for coord in line_coords_str:
-            x, y = coord.strip('()').split(', ')
+            coord = coord.strip('() ')
+            x, y = coord.split(', ')
             line_coords.append((float(x), float(y)))
 
         # Check for intersections with each hexagon
@@ -123,6 +135,7 @@ with open(csv_file, 'r') as file:
 
                     if segment_intersect(p1, q1, p2, q2):
                         intersections.append((p1, q1, p2, q2))
+
 
 # Print the intersections
 #print("Intersections:")
