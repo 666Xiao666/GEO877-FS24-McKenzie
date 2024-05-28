@@ -66,7 +66,7 @@ class Cogo_Tripdata:
             cleaned_data = self.clean_data(data_with_trip_duration)
             self.count_clean += len(cleaned_data)
 
-            output_file = os.path.join(self.output_path, "cleaned_" + f)
+            output_file = os.path.join(self.output_path, "cleaned" + f)
             self.write_csv(output_file, cleaned_data, fieldnames=data[0].keys())
 
         removed = self.count_original - self.count_clean
