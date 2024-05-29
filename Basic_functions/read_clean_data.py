@@ -10,7 +10,7 @@ class Cogo_Tripdata:
         self.count_clean = 0
         self.filelist = os.listdir(input_path)
 
-    # I read the original csv-bike trip data and add each row into a dictionary, wich are stored within a list.
+    # Read the original csv-bike trip data and add each row into a dictionary, wich then are stored within a list.
     def read_csv(self, file_path):
         data = []
         with open(file_path, 'r') as file:
@@ -19,15 +19,15 @@ class Cogo_Tripdata:
                 data.append(row)
         return data
     
-    # I convert the list of rows back into csv format with the given attributes as headers.
+    # List of rows is converted back into csv with the given attributes as headers.
     def write_csv(self, file_path, data, fieldnames):
         with open(file_path, 'w', newline='') as file:
             csv_writer = csv.DictWriter(file, fieldnames=fieldnames)
             csv_writer.writeheader()
             csv_writer.writerows(data)
 
-    # I have starting and ending trip timestamps stored as floats. These I need to convert into date format to be able to calculate the trip durations.
-    # By simple substraction of the converted datetime values, I calculate trip durations in minutes and add it to a new attribute 'trip_duration [min]'
+    # Starting and ending trip timestamps aare stored as floats. Those are converted into date format to calculate the trip durations.
+    # Trip durations are calculated in minutes and added as new attribute 'trip_duration [min]'
     def calculate_trip_duration(self, row):
         start = datetime.strptime(row['started_at'], '%Y-%m-%d %H:%M:%S')
         end = datetime.strptime(row['ended_at'], '%Y-%m-%d %H:%M:%S')  
@@ -35,7 +35,7 @@ class Cogo_Tripdata:
         row['trip_duration [min]'] = trip_duration 
         return row
 
-    # The original data consists of faulty data. To get reliable results:
+    # The original data consists of corrupt data. To get reliable results:
     # I set a maximum trip duration of 100 min (based on histogram plots of all trip durations).
     # I delete trips that lasts less than 10 minutes AND end at the same coordinates as they start
     # I delete trips that have no coordinate values
@@ -45,8 +45,9 @@ class Cogo_Tripdata:
         cleaned_data = []
 
         for row in data:
-            if (row['trip_duration [min]'] < max_duration and
-                row['start_lat'] and row['start_lng'] and row['end_lat'] and row['end_lng'] and not
+            if ((row['trip_duration [min]'] < max_duration and
+                row['start_lat'] and row['start_lng'] and row['end_lat'] and row['end_lng']) 
+                and not
                 (row['trip_duration [min]'] < min_duration and row['start_lat'] == row['end_lat'] and row['start_lng'] == row['end_lng'])):
                 cleaned_data.append(row)
 
