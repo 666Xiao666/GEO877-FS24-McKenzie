@@ -1,10 +1,11 @@
-from NewCabMetric import DistanceCalculation as DC
+from NewCabMetric import DistanceCalculation as DC, results
 import csv
 import matplotlib.pyplot as plt
 import re
 from read_in_boundary import columbus_bd
 from hexgrid_boundary import columbus_hexagons
-
+line1 = [entry['line'] for entry in results]
+print(line1[:10])
 class createIntersections:
     def __init__(self, csv_file, columbus_bd, columbus_hexagons):
         self.csv_file = csv_file
@@ -13,36 +14,38 @@ class createIntersections:
         self.lines = []
         self.intersections = []
         self.line_segments = []
+        
 
-    def read_lines_from_csv(self):
-        with open(self.csv_file, 'r') as file:
-            csv_reader = csv.DictReader(file)
-            for line in csv_reader:
-                line_coords_str = line['line'].strip('()').split(') -> (')
-                line_coords = []
-                for coord in line_coords_str:
-                    coord = coord.strip('() ').replace(') -> (', ' ')
-                    parts = coord.split(', ')
-                    if len(parts) != 2:
-                        print(f"Unexpected number of parts in coordinate: {coord}")
-                        continue
-                    x, y = parts
-                    try:
-                        line_coords.append([float(x), float(y)])
-                    except ValueError as e:
-                        print(f"Error converting coordinates to float: {coord} - {e}")
-                        continue
+    def read_lines(self):
+        linedata = [entry['line'] for entry in results]
+        for line in linedata:
+            line_coords_str = line.strip('()').split(') -> (')
+            line_coords = []
+            for coord in line_coords_str:
+                coord = coord.strip('() ').replace(') -> (', ' ')
+                parts = coord.split(', ')
+                if len(parts) != 2:
+                    print(f"Unexpected number of parts in coordinate: {coord}")
+                    continue
+                x, y = parts
+                try:
+                    line_coords.append([float(x), float(y)])
+                except ValueError as e:
+                    print(f"Error converting coordinates to float: {coord} - {e}")
+                    continue
+            x_coords = [coord[0] for coord in line_coords]
+            y_coords = [coord[1] for coord in line_coords]
 
-                x_coords = [coord[0] for coord in line_coords]
-                y_coords = [coord[1] for coord in line_coords]
+            line_dict = {
+                'line_coords': line_coords,
+                'x_coords': x_coords,
+                'y_coords': y_coords
+            }
+            
 
-                line_dict = {
-                    'line_coords': line_coords,
-                    'x_coords': x_coords,
-                    'y_coords': y_coords
-                }
+            self.lines.append(line_dict)
 
-                self.lines.append(line_dict)
+
 
     def segment_intersect(self, p1, q1, p2, q2):
         def other_dir(p1, p2, p3):
@@ -72,7 +75,7 @@ class createIntersections:
         return False
 
     def calculate_intersections(self):
-        self.read_lines_from_csv()
+        self.read_lines()
 
         for line in self.lines:
             line_coords = line['line_coords']

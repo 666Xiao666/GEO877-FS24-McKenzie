@@ -100,16 +100,16 @@ class DistanceCalculation:
 
 
 #this is the file path -> change it if you do it on your device
-#file_path = r'/Users/benedikt/Documents/GitHub/GEO877-FS24-McKenzie/CoGo_Bikerental_Colorado_US/cleaned_data/cleaned202007-cogo-tripdata.csv'
+file_path = r'/Users/benedikt/Documents/GitHub/GEO877-FS24-McKenzie/CoGo_Bikerental_Colorado_US/cleaned_data/cleaned202007-cogo-tripdata.csv'
 
 #creating an instance of the class "DistanceCalculation" (do not forget the change the path, otherwise it will not work :) 
-#distance_calculation = DistanceCalculation(file_path)
+distance_calculation = DistanceCalculation(file_path)
 
 #processing the data input
-#distance_calculation.process_data()
+distance_calculation.process_data()
 
 #this is for getting the results properly displayed
-#results = distance_calculation.get_results()
+results = distance_calculation.get_results()
 #for result in results:
 #    print(result)
 
