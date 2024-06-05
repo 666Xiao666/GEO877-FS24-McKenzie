@@ -350,5 +350,6 @@ fortune = Voronoi(points, bbox)
 fortune.process()
 output_segments = fortune.get_output()
 
+print(output_segments)
 # Plot the resulting Voronoi diagram
 plot_voronoi(points, output_segments)

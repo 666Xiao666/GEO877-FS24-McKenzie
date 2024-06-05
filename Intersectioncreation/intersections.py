@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 import re
 from read_in_boundary import columbus_bd
 from hexgrid_boundary import columbus_hexagons
-line1 = [entry['line'] for entry in results]
-print(line1[:10])
+
 class createIntersections:
     def __init__(self, csv_file, columbus_bd, columbus_hexagons):
         self.csv_file = csv_file
